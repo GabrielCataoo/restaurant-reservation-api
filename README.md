@@ -47,7 +47,7 @@ requirements.txt       # Dependencies list
 
 ## Security Notes
 
-- Admin route `/bookings` requires a code via query param: `?admin_code=...`
+- Admin route `/reservations` requires a code via query param: `?admin_code=...`
 - Only bookings with correct ID can be edited or deleted
 - Admin code is stored securely in `.env`
 
