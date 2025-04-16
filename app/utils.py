@@ -4,16 +4,16 @@ def validate_date(date_str):
     try:
         date = datetime.strptime(date_str, "%d/%m/%Y")
     except ValueError:
-        print("❌ Invalid date format. Use DD/MM/YYYY.")
+        print("❌ Formato de data inválido. Use DD/MM/AAAA.")
         return False
 
     today = datetime.now().date()
     if date.date() < today:
-        print("❌ The date cannot be in the past.")
+        print("❌ A data não pode estar no passado.")
         return False
 
     if date.weekday() not in [3, 4, 5]:  # quinta, sexta, sábado
-        print("❌ The establishment only opens Thursday - Saturday.")
+        print("❌ Nós funcionamos de Quinta-feira até Sábado.")
         return False
 
     return True

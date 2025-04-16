@@ -12,14 +12,14 @@ def total_people_on_day(db: Session, date: str):
 
 def create_reservation(db: Session, reservation: schemas.ReservationCreate):
     if reservation.people > MAX_PEOPLE_PER_BOOKING:
-        raise ValueError(f"Max people allowed per reservation: {MAX_PEOPLE_PER_BOOKING}")
+        raise ValueError(f"Máximo de pessoas permitidas por reserva: {MAX_PEOPLE_PER_BOOKING}")
 
     if not validate_date(reservation.date):
-        raise ValueError("Invalid date or format. Please use DD/MM/YYYY and valid reservation days.")
+        raise ValueError("Datá inválida. Use o formato DD/MM/AAAA, lembrando que fucionamos de quinta até sábado")
 
     total = total_people_on_day(db, reservation.date)
     if total + reservation.people > MAX_PEOPLE_PER_DAY:
-        raise ValueError(f"Capacity exceeded for this date. Only {MAX_PEOPLE_PER_DAY - total} spots remaining.")
+        raise ValueError(f"Capacidade de reservas diárias excedida. Nesta data restam apenas: {MAX_PEOPLE_PER_DAY - total} lugares para reserva")
 
     reservation_id = str(uuid.uuid4())[:5]
     new_reservation = models.Reservation(
@@ -56,17 +56,17 @@ def update_reservation(db: Session, reservation_id: str, data: schemas.Reservati
     new_people = data.people if data.people is not None else reservation.people
 
     if new_people > MAX_PEOPLE_PER_BOOKING:
-        raise ValueError(f"Max people allowed per reservation: {MAX_PEOPLE_PER_BOOKING}")
+        raise ValueError(f"Máximo de pessoas permitidas por reserva: {MAX_PEOPLE_PER_BOOKING}")
 
     if not validate_date(new_date):
-        raise ValueError("Invalid date or format. Please use DD/MM/YYYY and valid reservation days.")
+        raise ValueError("Datá inválida. Use o formato DD/MM/AAAA, lembrando que fucionamos de quinta até sábado")
 
     existing_people = total_people_on_day(db, new_date)
     if new_date == reservation.date:
         existing_people -= reservation.people
 
     if existing_people + new_people > MAX_PEOPLE_PER_DAY:
-        raise ValueError(f"Capacity exceeded for this date. Only {MAX_PEOPLE_PER_DAY - existing_people} spots remaining.")
+        raise ValueError(f"Capacidade de reservas diárias excedida. Nesta data restam apenas: {MAX_PEOPLE_PER_DAY - existing_people} lugares para reserva")
 
     if data.customer is not None:
         reservation.customer = data.customer
