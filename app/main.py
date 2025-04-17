@@ -5,6 +5,7 @@ from .database import SessionLocal, engine, Base
 from .utils import validate_date
 from .config import ADMIN_CODE
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 import logging
 
 Base.metadata.create_all(bind=engine)
@@ -80,3 +81,5 @@ def check_availability(date: str = Query(..., example="12/04/2025"), db: Session
     total = sum(b.people for b in db.query(models.Reservation).filter(models.Reservation.date == date).all())
     slots = 60 - total
     return {"date": date, "available_slots": slots}
+
+handler = Mangum(app)

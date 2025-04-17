@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI + Mangum - Restaurant Reservation Bot
+
+Resources:
+  ReservationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: app.main.handler
+      Runtime: python3.13
+      Timeout: 10
+      MemorySize: 512
+      
+      
+      Environment:
+        Variables:
+          DATABASE_URL: postgresql://dbadmin:adc060997@<reservation-db.c12cygykiolo.sa-east-1.rds.amazonaws.com>:5432/postgres
+          ADMIN_CODE: 'reservationlist'
+
+      
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY

@@ -1,5 +1,30 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+
+# Virtual environment
 venv/
-*.db
+env/
+
+# Environment variables
 .env
+
+# SQLite database
+*.db
+
+# Logs
+*.log
+
+# VS Code / IDE settings
+.vscode/
+.idea/
+
+# Test files and caches
+*.pytest_cache/
+*.coverage
+coverage.xml
+
+# MacOS & Windows system files
+.DS_Store
+Thumbs.db
